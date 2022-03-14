@@ -7,7 +7,7 @@ void	ft_handle(char c, int pid)
 {
 	unsigned char	mask;
 
-	mask = 1 << 7;
+	mask = 1 << 6;
 	while (mask)
 	{
 		if (c & mask)
