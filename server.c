@@ -1,26 +1,53 @@
-#include <unistd.h>
-#include <stdio.h>
-#include <signal.h>
+#include "minitalk.h"
 
-void	ft_handle(int i)
+void	clear(char *str, int *i, int *count)
 {
-	static char buf[256];
-
-	
-	if (i == SIGUSR1)
-		printf("1\n");
-	if (i == SIGUSR2)
-		printf("0\n");
-	return ;
+	ft_printf("%s", str);
+	//str = ft_memset(str, 0, 257);
+	*i = 0;
+	*count = 0;
 }
 
-int	main(void)
+void	handle(int sig, siginfo_t *pid, void *del)
 {
-	printf("%d\n", (int)getpid());
-	while (1)
+	static char	buff[257];
+	static int	i;
+	static int	count;
+
+	buff[i] <<= 1;
+	buff[256] = 0;
+	del = 0;
+	count++;
+	if (sig == SIGUSR1)
+		buff[i] += 1;
+	if (count == 8)
 	{
-		signal(SIGUSR1, &ft_handle);
-		signal(SIGUSR2, &ft_handle);
+		if (!buff[i])
+		{
+			clear(&buff[0], &i, &count);
+			kill(pid->si_pid, SIGUSR1);
+			return ;
+		}
+		if (i == 255)
+		{
+			kill(pid->si_pid, SIGUSR2);
+			clear(&buff[0], &i, &count);
+			return ;
+		}
+		i++;
+		count = 0;
 	}
-	return (0);
+}
+
+int main(void)
+{
+	struct sigaction	sa;
+
+	ft_printf("PID = %d\n", (int)getpid());
+	sa.sa_flags = SA_SIGINFO;
+	sa.sa_sigaction = handle;
+	sigaction(SIGUSR1, &sa, 0);
+	sigaction(SIGUSR2, &sa, 0);
+	while (1)
+		continue;
 }

@@ -1,33 +1,56 @@
-#include <signal.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include "minitalk.h"
 
-void	ft_handle(char c, int pid)
+void	handle(int sig)
 {
-	unsigned char	mask;
+	//ft_printf("\nhandle\n");
+	if (sig == SIGUSR1)
+	{
+		ft_printf("Message received.\n");
+		exit(0);
+	}
+	else if (sig == SIGUSR2)
+		usleep(500);
+}
 
-	mask = 1 << 6;
+void	chopper(int pid, char c)
+{
+    unsigned char	mask;
+
+	mask = 1 << 7;
 	while (mask)
 	{
 		if (c & mask)
-		{
 			kill(pid, SIGUSR1);
-			printf("1");
-		}
 		else
-		{
 			kill(pid, SIGUSR2);
-			printf("0");
-		}
 		mask >>= 1;
-		usleep(0.00001);
+		usleep(2);
 	}
 }
 
 int	main(int argc, char **argv)
 {
-	if (argc != 3 || kill(atoi(argv[1]), 0))
+	struct sigaction	sa;
+    int					i;
+
+	i = -1;
+	sa.sa_handler = handle;
+	sigaction(SIGUSR1, &sa, 0);
+	if (argc != 3 || kill(ft_atoi(argv[1]), 0))
 		return (1);
-	ft_handle(argv[2][0], atoi(argv[1]));
+	while (argv[2][++i])
+	{
+		signal(SIGUSR2, &handle);
+		chopper(ft_atoi(argv[1]), argv[2][i]);
+		//if (!(i % 255) && i > 0)
+		//	usleep(500);
+	}
+	i = -1;
+	while (++i != 8)
+	{
+		kill(ft_atoi(argv[1]), SIGUSR2);
+		usleep(2);
+	}
+	while (1)
+		continue;
 }
