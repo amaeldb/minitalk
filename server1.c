@@ -1,52 +1,81 @@
-#include <unistd.h>
-#include <stdio.h>
-#include <signal.h>
-#include <strings.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server1.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ade-beta <ade-beta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/11 14:36:42 by ade-beta          #+#    #+#             */
+/*   Updated: 2022/04/11 14:57:34 by ade-beta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	ft_handle(int si)
+#include "minitalk.h"
+
+void	clear(char *str, int *i, int pid, int *j)
 {
-	static char buf[256];
-	static int	i;
-	static int	j;
+	ft_printf("%s", str);
+	kill(pid, SIGUSR1);
+	*i = 0;
+	*j = 0;
+	free(str);
+}
 
-	buf[j] <<= 1;
-	if (si == SIGUSR1)
-//		write(1, "1\n", 2);
-		buf[j] += 1;
-//	if (si == SIGUSR2)
-//		write(1, "0\n", 2);
-	i++;
-	if (i == 7)
+void	atend()
+{
+
+}
+
+void	atfull()
+{
+
+}
+
+void	handle(int sig, siginfo_t *pid, void *del)
+{
+	static char	*buff;
+	static int	i = 0;
+	static int	j = 0;
+	static int	count = 0;
+
+	if (!j)
 	{
-		if (!buf[j])
+		buff = ft_calloc(257, 1);
+		j++;
+	}
+	if (!buff)
+		exit(0);
+	buff[i] <<= 1;
+	del = 0;
+	count++;
+	if (sig == SIGUSR1)
+		buff[i] += 1;
+	if (count == 8)
+	{
+		count = 0;
+		if (!buff[i])
 		{
-			printf("%s\n", buf);
-			write(1, "\nDONE\n", 6);
-			j = 0;
-			i = 0;
-			bzero(buf, 256);
+			clear(&buff[0], &i, pid->si_pid, &j);
 			return ;
 		}
-		//write(1, &buf[j], 1);
-		j++;
-		i = 0;
+		if (i != 0 && i % 256 == 0)
+		{
+			kill(pid->si_pid, SIGUSR2);
+			ft_strjoin(buff, ft_calloc(257, 1));
+		}
+		i++;
 	}
-	//printf("\nbuf = %s\n", buf);
 }
 
 int	main(void)
 {
 	struct sigaction	sa;
 
-	sa.sa_handler = ft_handle;
-	sigaction(SIGUSR1, &sa, NULL);
-	sigaction(SIGUSR2, &sa, NULL);
-	printf("Process ID: %d\n", (int)getpid());
+	ft_printf("PID = %d\n", (int)getpid());
+	sa.sa_flags = SA_SIGINFO;
+	sa.sa_sigaction = handle;
+	sigaction(SIGUSR1, &sa, 0);
+	sigaction(SIGUSR2, &sa, 0);
 	while (1)
-	{
-		//signal(SIGUSR1, &ft_handle);
-		//signal(SIGUSR2, &ft_handle);
-		continue;
-	}
-	return (0);
+		continue ;
 }

@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   conv2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ade-beta <ade-beta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/11 14:38:02 by ade-beta          #+#    #+#             */
-/*   Updated: 2022/04/11 14:38:59 by ade-beta         ###   ########.fr       */
+/*   Created: 2021/12/21 14:24:27 by ade-beta          #+#    #+#             */
+/*   Updated: 2021/12/21 14:30:00 by ade-beta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+#include "ft_printf.h"
 
-# include <signal.h>
-# include <unistd.h>
-# include <stdlib.h>
+int	conv_u(unsigned int par)
+{
+	return (to_base(par, "0123456789", 10));
+}
 
-int		ft_atoi(const char *nptr);
-void	*ft_memset(void *s, int c, size_t n);
-int		ft_printf(const char *str, ...);
-void	*ft_calloc(size_t nmemb, size_t size);
-char	*ft_strjoin(const char *s1, const char *s2);
-size_t	ft_strlen(const char *s);
+int	conv_x(unsigned int par, char *base)
+{
+	return (to_base(par, base, 16));
+}
 
-#endif
+int	conv_bigx(unsigned int par, char *base)
+{
+	return (to_base(par, base, 16));
+}

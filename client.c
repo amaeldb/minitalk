@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ade-beta <ade-beta@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/11 14:37:00 by ade-beta          #+#    #+#             */
+/*   Updated: 2022/04/11 15:10:21 by ade-beta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
 
 void	handle(int sig)
 {
-	//ft_printf("\nhandle\n");
 	if (sig == SIGUSR1)
 	{
 		ft_printf("Message received.\n");
@@ -14,7 +25,7 @@ void	handle(int sig)
 
 void	chopper(int pid, char c)
 {
-    unsigned char	mask;
+	unsigned char	mask;
 
 	mask = 1 << 7;
 	while (mask)
@@ -31,7 +42,7 @@ void	chopper(int pid, char c)
 int	main(int argc, char **argv)
 {
 	struct sigaction	sa;
-    int					i;
+	int					i;
 
 	i = -1;
 	sa.sa_handler = handle;
@@ -42,8 +53,6 @@ int	main(int argc, char **argv)
 	{
 		signal(SIGUSR2, &handle);
 		chopper(ft_atoi(argv[1]), argv[2][i]);
-		//if (!(i % 255) && i > 0)
-		//	usleep(500);
 	}
 	i = -1;
 	while (++i != 8)
@@ -52,5 +61,5 @@ int	main(int argc, char **argv)
 		usleep(2);
 	}
 	while (1)
-		continue;
+		continue ;
 }

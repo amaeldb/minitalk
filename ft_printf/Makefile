@@ -2,28 +2,22 @@ SRCS	= 	ft_printf.c conv1.c conv2.c
 
 OBJS	= ${SRCS:.c=.o}
 
-HEAD	= ./minitalk.h
+HEAD	= ./ft_printf.h
 
 FLAGS	= -Wall -Wextra -Werror
 
-NAME	= minitalk
+NAME	= libftprintf.a
 
 .c.o:
 		gcc ${FLAGS} -c $< -o ${<:.c=.o}
 
 all:	${NAME}
 
-printf:
-		cd ./ft_printf && make
-
 ${NAME}:	${OBJS}
 		ar rc ${NAME} ${OBJS}
 
-server:		ft_printf
-			gcc ${FLAGS} server.c utils.c ./ft_printf/libftprintf.a -o server
-
 clean:
-		rm -f ${OBJS}
+		rm -f ${OBJS} ${OBJSB}
 
 fclean:		clean
 			rm -f ${NAME}
