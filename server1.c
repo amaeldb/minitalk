@@ -6,7 +6,7 @@
 /*   By: ade-beta <ade-beta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:36:42 by ade-beta          #+#    #+#             */
-/*   Updated: 2022/04/11 14:57:34 by ade-beta         ###   ########.fr       */
+/*   Updated: 2022/04/12 16:11:29 by ade-beta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	clear(char *str, int *i, int pid, int *j)
 {
 	ft_printf("%s", str);
-	kill(pid, SIGUSR1);
+	kill(pid, SIGUSR2);
 	*i = 0;
 	*j = 0;
 	free(str);
@@ -46,7 +46,7 @@ void	handle(int sig, siginfo_t *pid, void *del)
 	if (!buff)
 		exit(0);
 	buff[i] <<= 1;
-	del = 0;
+	del += 0;
 	count++;
 	if (sig == SIGUSR1)
 		buff[i] += 1;
@@ -59,12 +59,10 @@ void	handle(int sig, siginfo_t *pid, void *del)
 			return ;
 		}
 		if (i != 0 && i % 256 == 0)
-		{
-			kill(pid->si_pid, SIGUSR2);
 			ft_strjoin(buff, ft_calloc(257, 1));
-		}
 		i++;
 	}
+	kill(pid->si_pid, SIGUSR1);
 }
 
 int	main(void)
@@ -74,6 +72,7 @@ int	main(void)
 	ft_printf("PID = %d\n", (int)getpid());
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = handle;
+	sigemptyset(&sa.sa_mask);
 	sigaction(SIGUSR1, &sa, 0);
 	sigaction(SIGUSR2, &sa, 0);
 	while (1)
