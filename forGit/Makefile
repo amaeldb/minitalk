@@ -18,3 +18,5 @@ clean:
 fclean: clean
 	@rm -rf client server
 	@make fclean -C ft_printf
+
+re: fclean all

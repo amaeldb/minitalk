@@ -41,7 +41,7 @@ void	handle(int sig, siginfo_t *pid, void *del)
 	if (!j)
 	{
 		buff = ft_calloc(257, 1);
-		j++;
+		j = 1;
 	}
 	if (!buff)
 		exit(0);
@@ -59,7 +59,7 @@ void	handle(int sig, siginfo_t *pid, void *del)
 			return ;
 		}
 		if (i != 0 && i % 256 == 0)
-			ft_strjoin(buff, ft_calloc(257, 1));
+			buff = ft_strjoin(buff);
 		i++;
 	}
 	kill(pid->si_pid, SIGUSR1);
