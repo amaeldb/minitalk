@@ -6,7 +6,7 @@
 /*   By: ade-beta <ade-beta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:36:42 by ade-beta          #+#    #+#             */
-/*   Updated: 2022/04/20 14:04:31 by ade-beta         ###   ########.fr       */
+/*   Updated: 2022/04/20 17:06:08 by ade-beta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,19 @@ void	clear(char *str, int *i, int pid, int *j)
 	free(str);
 }
 
-void	atend()
+int	atend(char *buff, int *i, int pid, int *j)
 {
-
+	if (!buff[*i])
+	{
+		clear(&buff[0], i, pid, j);
+		return (0);
+	}
+	if (*i != 0 && *i % 255 == 0)
+{
+		buff = ft_strjoin(buff);
 }
-
-void	atfull()
-{
-
+	*i += 1;
+	return (0);
 }
 
 void	handle(int sig, siginfo_t *pid, void *del)
@@ -62,6 +67,7 @@ void	handle(int sig, siginfo_t *pid, void *del)
 			buff = ft_strjoin(buff);
 		i++;
 	}
+		//count = atend(buff, &i, pid->si_pid, &j);
 	kill(pid->si_pid, SIGUSR1);
 }
 

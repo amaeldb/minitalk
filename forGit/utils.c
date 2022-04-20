@@ -6,7 +6,7 @@
 /*   By: ade-beta <ade-beta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:37:41 by ade-beta          #+#    #+#             */
-/*   Updated: 2022/04/20 13:59:27 by ade-beta         ###   ########.fr       */
+/*   Updated: 2022/04/20 17:11:15 by ade-beta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
-	while (s[i])
+	while (s && s[i])
 		i++;
 	return (i);
 }
@@ -82,6 +82,7 @@ char	*ft_strjoin(char *s1)
 	if (!s1)
 		return (NULL);
 	i = -1;
+	ft_printf("size of buff = %d", (int)ft_strlen(s1));
 	ret = ft_calloc(ft_strlen(s1) + 257, 1);
 	if (!ret)
 		return (NULL);
