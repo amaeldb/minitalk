@@ -6,7 +6,7 @@
 /*   By: ade-beta <ade-beta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:37:00 by ade-beta          #+#    #+#             */
-/*   Updated: 2022/04/12 15:34:54 by ade-beta         ###   ########.fr       */
+/*   Updated: 2022/04/20 13:46:15 by ade-beta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	main(int argc, char **argv)
 	while (argv[2][++i])
 		chopper(ft_atoi(argv[1]), argv[2][i]);
 	i = -1;
-	ft_printf("End of Text\n");
 	while (++i != 8)
 		chopper(ft_atoi(argv[1]), 0);
 	while (1)

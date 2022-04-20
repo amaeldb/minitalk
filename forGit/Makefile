@@ -6,10 +6,10 @@ printf:
 	@make -C ft_printf
 
 client:	client.o utils.o printf
-	@gcc ${FLAGS} client.o utils.o ft_printf/libftprintf.a -o client
+	@ clang ${FLAGS} client.o utils.o ft_printf/libftprintf.a -o client
 
 server:	server.o utils.o printf
-	@gcc ${FLAGS} server.o utils.o ft_printf/libftprintf.a -o server
+	@ clang ${FLAGS} server.o utils.o ft_printf/libftprintf.a -o server
 
 clean:
 	@rm -rf *.o
