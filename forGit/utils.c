@@ -6,7 +6,7 @@
 /*   By: ade-beta <ade-beta@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/11 14:37:41 by ade-beta          #+#    #+#             */
-/*   Updated: 2022/04/21 13:26:36 by ade-beta         ###   ########.fr       */
+/*   Updated: 2022/04/21 14:01:52 by ade-beta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	*ft_memset(void *s, int c, size_t n)
 	return (s);
 }
 
-
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void	*ret;
@@ -62,7 +61,6 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	if (!ret)
 		return (NULL);
 	ft_memset(ret, 0, nmemb);
-	//ft_bzero(ret, nmemb);
 	return (ret);
 }
 
@@ -86,7 +84,10 @@ char	*ft_strjoin(char *s1)
 	i = -1;
 	ret = ft_calloc(ft_strlen(s1) + 257, 1);
 	if (!ret)
-		return (NULL);
+	{
+		free(s1);
+		exit(0);
+	}
 	while (s1[++i])
 		ret[i] = (char)s1[i];
 	free(s1);
