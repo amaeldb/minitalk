@@ -12,7 +12,7 @@
 
 #include "ft_printf.h"
 
-char	*ft_strchr(const char *s, int c)
+char	*print_strchr(const char *s, int c)
 {
 	int		i;
 	char	*ret;
@@ -65,7 +65,7 @@ int	reduc(char str, va_list *par)
 	int	count;
 
 	count = 0;
-	if (ft_strchr("cspdiuxX%", str))
+	if (print_strchr("cspdiuxX%", str))
 		count += conv(str, par);
 	else
 		count += conv_c((int)str);
